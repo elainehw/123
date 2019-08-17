@@ -5,10 +5,8 @@ output:
   word_document: default
   html_document: default
 ---
-```{r}
-#In order to set up ETFs portfolios and analyze short-term tail risk, we choose three different portfolios with different industries. For the first portfolio which is pretty diverse, it is included ETFs from 3 industries: Agricultural commodity, Metals and Healthcare, and ETFs from 2 different supporters: government and corporate. 
-```
 
+In order to set up ETFs portfolios and analyze short-term tail risk, we choose three different portfolios with different industries. For the first portfolio which is pretty diverse, it is included ETFs from 3 industries: Agricultural commodity, Metals and Healthcare, and ETFs from 2 different supporters: government and corporate. 
 ```{r portfolio_1}
 library(quantmod)
 library(mosaic)
@@ -85,12 +83,11 @@ mean(sim1[,n_days] > 100000)
 quantile(sim1[,n_days]- initial_wealth,.05)
 quantile(sim1[,n_days]- initial_wealth,.01)
 ```
-```{r}
-#The mean of capital after 20 trading days is 100708.6 and we can earn an average rate of return of 0.7% for 20 trading days on our investment. In addition, we could earn returns at the 58% confidence. Considering the VaR, if the degree of risk preference and acceptance ability of our investors is 5%, portfolio 1 has a 5% VaR of 3128, which means that there is a 0.05 probability that the portfolio 1 will fall in value by more than 3128 in a 20 trading-day period. If the degree of risk preference and acceptance ability of our investors is 1%, portfolio 1 has a 1% VaR of 4396, which means that there is a 0.01 probability that the portfolio 1 will fall in value by more than 4396 in a 20 trading-day period. 
-```
-```{r}
-# Portfolio 2 is more aggressive. It contains two kinds of bonds, which are volitality and leverage bonds. Leverage bonds provide magnified exposure to popular fixed income benchmarks. They can generage amplified returns and also have higher risks. Volitality ETFs tend to move in the opposite direction of the broad market. Therefore, the portfolio 2 is supposed to win the market and win more when the market is down. However, it has to cover more risks as well whe nthe market is up.
-```
+The mean of capital after 20 trading days is 100708.6 and we can earn an average rate of return of 0.7% for 20 trading days on our investment. In addition, we could earn returns at the 58% confidence. Considering the VaR, if the degree of risk preference and acceptance ability of our investors is 5%, portfolio 1 has a 5% VaR of 3128, which means that there is a 0.05 probability that the portfolio 1 will fall in value by more than 3128 in a 20 trading-day period. If the degree of risk preference and acceptance ability of our investors is 1%, portfolio 1 has a 1% VaR of 4396, which means that there is a 0.01 probability that the portfolio 1 will fall in value by more than 4396 in a 20 trading-day period. 
+
+
+
+Portfolio 2 is more aggressive. It contains two kinds of bonds, which are volitality and leverage bonds. Leverage bonds provide magnified exposure to popular fixed income benchmarks. They can generage amplified returns and also have higher risks. Volitality ETFs tend to move in the opposite direction of the broad market. Therefore, the portfolio 2 is supposed to win the market and win more when the market is down. However, it has to cover more risks as well whe nthe market is up.
 
 ```{r portfolio_2}
 portfolio_2 = c("VIXY", "VIXM", "VIIX","TBT","TMV")
@@ -159,14 +156,10 @@ mean(sim2[,n_days] > 100000)
 quantile(sim2[,n_days]-initial_wealth,.05)
 quantile(sim2[,n_days]-initial_wealth,.01)
 ```
-```{r}
-# If we invest portfolio 2, the mean of capital is only 96862 for 20 trading days, which has the 3.1% loss. And there is only 34% probability to win. For investors at 5% of risk preference, the value in risk is more than 15539. For investors at 1% of risk preference, the value in risk is more than 17789. It only earns when the market is down, so we need to pay close attention to the broad market when investing this portfolio. 
-```
+If we invest portfolio 2, the mean of capital is only 96862 for 20 trading days, which has the 3.1% loss. And there is only 34% probability to win. For investors at 5% of risk preference, the value in risk is more than 15539. For investors at 1% of risk preference, the value in risk is more than 17789. It only earns when the market is down, so we need to pay close attention to the broad market when investing this portfolio. 
 
-```{r}
-# Finally, we choose a safer portfolio containing 5 government bonds. Government Bonds ETFs offer investors exposure to fixed income securities issued by government agencies, which have little risk and small returns as well. They are more preferred by risk averse individuals.
-```
 
+Finally, we choose a safer portfolio containing 5 government bonds. Government Bonds ETFs offer investors exposure to fixed income securities issued by government agencies, which have little risk and small returns as well. They are more preferred by risk averse individuals.
 ```{r portfolio_3}
 portfolio_3 = c("IEF", "SHY", "BIL","GOVT","SCHO")
 getSymbols(portfolio_3, from = "2015-01-01") 
@@ -236,10 +229,11 @@ mean(sim3[,n_days] > 100000)
 quantile(sim3[,n_days]- initial_wealth,.05)
 quantile(sim3[,n_days]- initial_wealth,.01)
 ```
-```{r}
-# From the return and loss histogram, we know that the portfolio 3 is safer than portfolio 1 and 2, the most loss can only be 1500 and also the most earns can only less than 1200 approximately which follows the principle of low risk and low return. Also the correlationship between ETFs in porfolio 3, they have close relationship between each other since they are all issued by government agencies and varied simultaneously. For investors at 1% of risk preference, the value in risk is more than 1302.
-```
+From the return and loss histogram, we know that the portfolio 3 is safer than portfolio 1 and 2, the most loss can only be 1500 and also the most earns can only less than 1200 approximately which follows the principle of low risk and low return. Also the correlationship between ETFs in porfolio 3, they have close relationship between each other since they are all issued by government agencies and varied simultaneously. For investors at 1% of risk preference, the value in risk is more than 1302.
 
+
+
+Combine VaR for three portfolios
 ```{r}
 # Combine VaR for three portfolios
 Portfolio_3 <- c(quantile(sim3[,n_days]- initial_wealth,.05), quantile(sim3[,n_days]- initial_wealth,.01))
@@ -253,7 +247,4 @@ barplot(VaR, beside = TRUE,legend=TRUE,col=c("darkblue","grey","orange"),cex.nam
 title("VaR For 3 Portfolio at 5% and 1%")
 
 ```
-```{r}
-# From the VaR at 5% and 1% for these 3 portfolios, we can see that the porfolio 2 loses most and covers the most risks and the porfolio 1 is the safest compared with other porfolios. Also, the value at risk is also different by the lose probability. 1% lose probability will lose more compared with 5% lose probability. And the probability also represents the risk preference of investors. If the investors have low risk preference, it means that we need to consider high lose probability and the VaR turns out to be less. And we need to choose safer portfolio, like portfolio 1 or 2, in order to hedge risk as much as possible.
-```
-
+From the VaR at 5% and 1% for these 3 portfolios, we can see that the porfolio 2 loses most and covers the most risks and the porfolio 1 is the safest compared with other porfolios. Also, the value at risk is also different by the lose probability. 1% lose probability will lose more compared with 5% lose probability. And the probability also represents the risk preference of investors. If the investors have low risk preference, it means that we need to consider high lose probability and the VaR turns out to be less. And we need to choose safer portfolio, like portfolio 1 or 2, in order to hedge risk as much as possible.
